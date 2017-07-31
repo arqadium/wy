@@ -1,0 +1,139 @@
+%&program=xelatex
+%&encoding=UTF-8 Unicode
+
+\documentclass[12pt,english]{article}
+\usepackage[a4paper,bindingoffset=0.2in,margin=1cm,footskip=0.75cm]{geometry}
+
+\widowpenalties 1 10000
+\raggedbottom
+
+\setcounter{tocdepth}{3}
+
+\usepackage[bookmarks=true, unicode=true, hidelinks=true,
+linktoc=section]{hyperref}
+
+\usepackage{array,multirow,graphicx}
+\usepackage{mathtools}
+\usepackage{changepage}
+\usepackage[usenames, dvipsnames]{color}
+
+\newlength{\tindent}
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\setlength{\parskip}{1.25em}
+\setlength\tabcolsep{3mm}
+
+\pagenumbering{arabic}
+
+\usepackage{mathspec}
+\usepackage{fontspec}
+\setallmainfonts{Palatino Linotype}
+\setsansfont{Helvetica Neue}
+\setmonofont{Source Code Pro}
+
+\renewcommand{\texttt}[1]{\ttfamily{\small{#1}}\normalfont{}}
+
+\newcommand{\hr}{\noindent\rule{185mm}{0.4pt}}
+
+\begin{document}
+\begin{center}
+
+\vspace*{9cm}
+
+\Large{\textbf{Arqadium presents}} \\*
+\vspace*{0.25cm}
+\Huge{\textbf{Wyvern Configuration File Format}} \\*
+\vspace*{1cm}
+\large{\textit{July 31, 2017 (UTC)}}
+\end{center}
+
+\clearpage{}
+
+\tableofcontents{}
+
+\clearpage{}
+
+\section{Objectives}
+
+\textbf{Wyvern} aims to provide a configuration file format that is easy for
+humans to understand yet flexible for computers to parse. It also aims to be
+extensible in that this specification provides means for others to add to its
+versatility with additional data types defined in \textit{Wyvern Schemas.}
+
+\section{Lexical}
+
+The lexical analysis is independent of the syntax parsing and the semantic
+analysis. The lexical analyzer splits the source text up into tokens. The
+lexical grammar describes the syntax of those tokens.
+
+\subsection{Source text}
+
+Wyvern configuration files can be in one of the following formats:
+
+\begin{itemize}
+\item UTF-8
+\item UTF-16BE
+\item UTF-16LE
+\item UTF-32BE
+\item UTF-32LE
+\end{itemize}
+
+UTF-8 is a superset of traditional 7-bit ASCII. One of the following UTF BOMs
+(Byte Order Marks) can be present at the beginning of the source text:
+
+\bgroup
+\def\arraystretch{1.15}
+\begin{center}
+\begin{tabular}{c|l} \hline
+UTF-8 & \texttt{EF BB BF} \\
+UTF-16BE & \texttt{FE FF} \\
+UTF-16LE & \texttt{FF FE} \\
+UTF-32BE & \texttt{00 00 FE FF} \\
+UTF-32LE & \texttt{FF FE 00 00} \\
+\end{tabular}
+\end{center}
+\egroup
+
+The source text is decoded from its source representation into Unicode
+Characters. The Characters are further divided into: Whitespace, End-of-Line,
+Comments, Special-Token-Sequences, Tokens, all followed by End-of-File.
+
+The source text is split into tokens using the maximal munch technique, i.e.,
+the lexical analyzer tries to make the longest token it can. For example
+\texttt{>>} is a right shift token, not two greater than tokens.
+
+End-of-File is defined as:
+
+\begin{itemize}
+\item \textit{physical end of the file}
+\item \textbf{U+0000}
+\item \textbf{U+001A}
+\end{itemize}
+
+End-of-Line is defined as:
+
+\begin{itemize}
+\item \textbf{U+000D}
+\item \textbf{U+000A}
+\item \textbf{U+000D U+000A}
+\item \textbf{U+2028}
+\item \textbf{U+2029}
+\end{itemize}
+
+Lines may be spliced by having a backslash character (\textbf{U+005C}) (and
+optionally Whitespace) precede the End-of-Line character; in this case the
+End-of-Line character and any Whitespace between it and the backslash is
+ignored and the next line is treated as if it were part of the first.
+
+Whitespace is defined as one or more of:
+
+\begin{itemize}
+\item \textbf{U+0020}
+\item \textbf{U+0009}
+\item \textbf{U+000B}
+\item \textbf{U+000C}
+\end{itemize}
+
+\end{document}
