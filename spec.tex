@@ -15,6 +15,7 @@ linktoc=section]{hyperref}
 \usepackage{array,multirow,graphicx}
 \usepackage{mathtools}
 \usepackage{changepage}
+\usepackage{listings}
 \usepackage[usenames, dvipsnames]{color}
 
 \newlength{\tindent}
@@ -106,34 +107,61 @@ the lexical analyzer tries to make the longest token it can. For example
 
 End-of-File is defined as:
 
-\begin{itemize}
-\item \textit{physical end of the file}
-\item \textbf{U+0000}
-\item \textbf{U+001A}
-\end{itemize}
+\texttt{EndOfFile: \\*
+\hspace*{1cm}\textit{physical end of the file} \\*
+\hspace*{1cm}\textit{\textbf{U+0000}} \\*
+\hspace*{1cm}\textit{\textbf{U+001A}} \\*}
 
-End-of-Line is defined as:
+\subsection{End of Line}
 
-\begin{itemize}
-\item \textbf{U+000D}
-\item \textbf{U+000A}
-\item \textbf{U+000D U+000A}
-\item \textbf{U+2028}
-\item \textbf{U+2029}
-\end{itemize}
+\texttt{EndOfLine: \\*
+\hspace*{1cm}\textit{\textbf{U+000A}} \\*
+\hspace*{1cm}\textit{\textbf{U+000D}} \\*
+\hspace*{1cm}\textit{\textbf{U+000D}} \textit{\textbf{U+000A}} \\*
+\hspace*{1cm}\textit{\textbf{U+2028}} \\*
+\hspace*{1cm}\textit{\textbf{U+2029}} \\*
+\hspace*{1cm}\textit{EndOfLine}}
 
 Lines may be spliced by having a backslash character (\textbf{U+005C}) (and
 optionally Whitespace) precede the End-of-Line character; in this case the
 End-of-Line character and any Whitespace between it and the backslash is
 ignored and the next line is treated as if it were part of the first.
 
-Whitespace is defined as one or more of:
+\subsection{Whitespace}
 
-\begin{itemize}
-\item \textbf{U+0020}
-\item \textbf{U+0009}
-\item \textbf{U+000B}
-\item \textbf{U+000C}
-\end{itemize}
+\texttt{Whitespace: \\*
+\hspace*{1cm}\textit{\textbf{U+0009}} \\*
+\hspace*{1cm}\textit{\textbf{U+000B}} \\*
+\hspace*{1cm}\textit{\textbf{U+000C}} \\*
+\hspace*{1cm}\textit{\textbf{U+0020}} \\*}
+
+\subsection{Comments}
+
+\texttt{Comment: \\*
+\hspace*{1cm}\textit{BlockComment} \\*
+\hspace*{1cm}\textit{LineComment} \\*
+\hspace*{1cm}\textit{NestingBlockComment} \\*}
+
+\texttt{BlockComment: \\*
+\hspace*{1cm}\textbf{/*} \textit{Characters} \textbf{*/} \\*}
+
+\texttt{LineComment: \\*
+\hspace*{1cm}\textbf{//} \textit{Characters} \textit{EndOfLine} \\*}
+
+\texttt{NestingBlockComment: \\*
+\hspace*{1cm}\textbf{/+} \textit{NestingBlockCommentCharacters} \textbf{+/} \\*}
+
+\texttt{NestingBlockCommentCharacters: \\*
+\hspace*{1cm}\textit{NestingBlockCommentCharacter} \\*
+\hspace*{1cm}\textit{NestingBlockCommentCharacter}
+\textit{NestingBlockCommentCharacters} \\*}
+
+\texttt{NestingBlockCommentCharacter: \\*
+\hspace*{1cm}\textit{Character} \\*
+\hspace*{1cm}\textit{NestingBlockComment} \\*}
+
+\texttt{Characters: \\*
+\hspace*{1cm}\textit{Character} \\*
+\hspace*{1cm}\textit{Character} \textit{Characters} \\*}
 
 \end{document}
