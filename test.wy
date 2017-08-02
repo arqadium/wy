@@ -1,0 +1,36 @@
+// I walk the line.
+
+section
+{
+    myString = "Hello, I'm Johnny Cash.";
+    mySpecial = NaN;
+    singularity = /* we are all a part of */ Infinity;
+    
+    // Many forms of tabulation are supported by Wyvern.
+    jp
+    {
+        // It takes in Unicode from the get-go, and in key names too.
+        "かたかな" = "カナ";
+    }
+}
+
+Section2
+{
+    myArray = [
+        1,
+        2,
+        3
+    ]; // Yay, arrays!
+    
+    /* But... /+ can it nest? +/ Yes indeed! */
+    alaJavaScript = "Semicolons (sorta) optional!"
+    "Pokémon" = [
+        "hot",
+        "Skitty",
+        "on",
+        "Wailord",
+        "action"
+    ]
+    katakana = ${section.jp:かたかな} ~ " カナ"; // katakana == "カナ　カナ"
+    iNverse = -${section:singularity} // iNverse == -Infinity
+}
