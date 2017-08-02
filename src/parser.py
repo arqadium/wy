@@ -16,11 +16,12 @@ class Node:
     children = []
     def __init__(self, type, match):
         self.type = type
-        self.text = match.group(0)
-        self.parts = match.groups()
+        if match != None:
+            self.text = match.group(0)
+            self.parts = match.groups()
 
 def parse(tokens):
-    return 
+    return Node('lcom', None)
 
 def main(args):
     if len(args) == 1:
