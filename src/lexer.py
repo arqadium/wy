@@ -40,10 +40,10 @@ SYNTAX['def']['eol'] = u'\u000A|\u000D|\u000D\u000A|\u2028|\u2029|' + \
 SYNTAX['def']['space'] = u'\u0009|\u000B|\u000C|\u0020'
 SYNTAX['def']['lcom'] = '//((?!' + SYNTAX['def']['eol'] + ').)*(?=(' + \
     SYNTAX['def']['eol'] + '))'
-SYNTAX['def']['bcom'] = '/\\*.*\\*/'
+SYNTAX['def']['bcom'] = '/\\*(.*)\\*/'
 SYNTAX['def']['string'] = '"([^"]|\\\\")*"'
 SYNTAX['def']['ident'] = '\\b[A-Za-z_][A-Za-z0-9_]*\\b'
-SYNTAX['def']['rident'] = '\\$\\{[^\\$\\}\\.:]+([\\.:][^\\$\\}\\.:]+)*\\}'
+SYNTAX['def']['rident'] = '\\$\\{[^\\$\\}\\.:]+([\\.:]([^\\$\\}\\.:]+))*\\}'
 SYNTAX['def']['numdec'] = '\\b[0-9]+(\\.[0-9]+)?\\b'
 SYNTAX['def']['numoct'] = '\\b0o[0-7]+\\b'
 SYNTAX['def']['numhex'] = '\\b0x[0-9A-Fa-f]+\\b'
@@ -75,9 +75,9 @@ def lex(inText):
             # .match() only looks from the beginning
             match = SYNTAX['expr'][key].match(inTextDup)
             if match != None:
-                val = match.group(0)
-                advLen = len(val) # Ignore the rest of the match afterward
-                outTokens += [{'type': key, 'value': val}]
+                # Ignore the rest of the match afterward
+                advLen = len(match.group(0))
+                outTokens += [{'type': key, 'match': match}]
                 break
         # Advance reading by a slice
         inTextDup = inTextDup[advLen:]
@@ -94,10 +94,10 @@ def main(args):
         tokensLR = range(len(tokens))
         for i in tokensLR:
             type = tokens[i]['type']
-            val = tokens[i]['value']
+            match = tokens[i]['match']
             if type == 'space' or type == 'eol':
                 continue
-            print(type + ': ‘' + val + '’')
+            print(type + ': ‘' + match.group(0) + '’')
     print('\nAll done.\n')
     return 0
 
