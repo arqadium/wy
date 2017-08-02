@@ -31,6 +31,6 @@ Section2
         "Wailord",
         "action"
     ]
-    katakana = ${section.jp:かたかな} ~ " カナ"; // katakana == "カナ　カナ"
+    katakana = ${section.jp:かたかな} ~ "　カナ"; // katakana == "カナ　カナ"
     iNverse = -${section:singularity} // iNverse == -Infinity
 }
