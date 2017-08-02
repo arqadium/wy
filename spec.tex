@@ -1,5 +1,14 @@
 %&program=xelatex
 %&encoding=UTF-8 Unicode
+%
+% Copyright © 2017 Arqadium. All rights reserved.
+%
+% This document contains proprietary information of ARQADIUM and/or its
+% licensed developers and are protected by national and international
+% copyright laws. They may not be disclosed to third parties or copied or
+% duplicated in any form, in whole or in part, without the prior written
+% consent of Arqadium.
+%
 
 \documentclass[12pt,english]{article}
 \usepackage[a4paper,bindingoffset=0.2in,margin=1cm,footskip=0.75cm]{geometry}
@@ -16,7 +25,17 @@ linktoc=section]{hyperref}
 \usepackage{mathtools}
 \usepackage{changepage}
 \usepackage{listings}
-\usepackage[usenames, dvipsnames]{color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+\definecolor{src-comment}{HTML}{8F8F8F}
+\definecolor{src-string}{HTML}{B03E38}
+\definecolor{src-quote}{HTML}{D4554E}
+\definecolor{src-numeric}{HTML}{518DED}
+\definecolor{src-keyword}{HTML}{3566B5}
+\definecolor{src-type}{HTML}{56914E}
+\definecolor{src-ident}{HTML}{90C255}
+\definecolor{src-const}{HTML}{D69B33}
+\definecolor{src-symbol}{HTML}{5C5C5C}
 
 \newlength{\tindent}
 \setlength{\tindent}{\parindent}
@@ -31,7 +50,7 @@ linktoc=section]{hyperref}
 \usepackage{mathspec}
 \usepackage{fontspec}
 \setallmainfonts{Palatino Linotype}
-\setsansfont{Helvetica Neue}
+\setsansfont{WenQuanYi Zen Hei}
 \setmonofont{Source Code Pro}
 
 \renewcommand{\texttt}[1]{\ttfamily{\small{#1}}\normalfont{}}
@@ -58,10 +77,76 @@ linktoc=section]{hyperref}
 
 \section{Objectives}
 
-\textbf{Wyvern} aims to provide a configuration file format that is easy for
-humans to understand yet flexible for computers to parse. It also aims to be
-extensible in that this specification provides means for others to add to its
-versatility with additional data types defined in \textit{Wyvern Schemas.}
+\textbf{Wyvern} aims to provide a configuration file format that is supremely
+flexible for user-facing configuration settings. It is also designed to
+support minification for efficient transit over networks, and provide tools
+to write \textit{extensible settings,} so file authors may reference other
+settings and even perform string interpolation using their values.
+
+\subsection{Sample file}
+
+\texttt{\textcolor{src-comment}{// I walk the line.} \\*
+ \\*
+\textcolor{src-keyword}{section} \\*
+\textcolor{src-symbol}{\{} \\*
+\hspace*{1cm}\textcolor{src-ident}{myString}~~~~\textcolor{src-symbol}{=}
+\textcolor{src-quote}{"}\textcolor{src-string}{Hello, I'm Johnny
+Cash.}\textcolor{src-quote}{"}\textcolor{src-symbol}{;} \\*
+\hspace*{1cm}\textcolor{src-ident}{mySpecial}~~~\textcolor{src-symbol}{=}
+\textcolor{src-const}{NaN}\textcolor{src-symbol}{;} \\*
+\hspace*{1cm}\textcolor{src-ident}{singularity} \textcolor{src-symbol}{=}
+\textcolor{src-comment}{/$\star$ we are all a part of $\star$/}
+\textcolor{src-const}{Infinity}\textcolor{src-symbol}{;} \\*
+\hspace*{2cm} \\*
+\hspace*{1cm}\textcolor{src-comment}{// Many forms of tabulation are
+supported by Wyvern.} \\*
+\hspace*{1cm}\textcolor{src-keyword}{jp} \\*
+\hspace*{1cm}\textcolor{src-symbol}{\{} \\*
+\hspace*{2cm}\textcolor{src-comment}{// It takes in Unicode from the get-go,
+and in key names too.} \\*
+\hspace*{2cm}\textcolor{src-type}{"}\textcolor{src-ident}{\textsf{かたかな}}\textcolor{src-type}{"}
+\textcolor{src-symbol}{=}
+\textcolor{src-quote}{"}\textcolor{src-string}{\textsf{カナ}}\textcolor{src-quote}{"}\textcolor{src-symbol}{;}
+\\*
+\hspace*{1cm}\textcolor{src-symbol}{\}} \\*
+\textcolor{src-symbol}{\}} \\*
+ \\*
+\textcolor{src-keyword}{Section2} \\*
+\textcolor{src-symbol}{\{} \\*
+\hspace*{1cm}\textcolor{src-ident}{myArray} \textcolor{src-symbol}{=}
+\textcolor{src-symbol}{[} \\*
+\hspace*{2cm}\textcolor{src-numeric}{1}\textcolor{src-symbol}{,} \\*
+\hspace*{2cm}\textcolor{src-numeric}{2}\textcolor{src-symbol}{,} \\*
+\hspace*{2cm}\textcolor{src-numeric}{3} \\*
+\hspace*{1cm}\textcolor{src-symbol}{];} \textcolor{src-comment}{// Yay, arrays!} \\*
+ \\*
+\hspace*{1cm}\textcolor{src-comment}{/+ But... /+ can it nest? +/ Yes indeed! +/} \\*
+\hspace*{1cm}\textcolor{src-ident}{alaJavaScript} \textcolor{src-symbol}{=}
+\textcolor{src-quote}{"}\textcolor{src-string}{Semicolons (sorta)
+optional!}\textcolor{src-quote}{"} \\*
+\hspace*{1cm}\textcolor{src-type}{"}\textcolor{src-ident}{Pokémon}\textcolor{src-type}{"}
+\textcolor{src-symbol}{=} \textcolor{src-symbol}{[} \\*
+\hspace*{2cm}\textcolor{src-quote}{"}\textcolor{src-string}{hot}\textcolor{src-quote}{"}\textcolor{src-symbol}{,}
+\\*
+\hspace*{2cm}\textcolor{src-quote}{"}\textcolor{src-string}{Skitty}\textcolor{src-quote}{"}\textcolor{src-symbol}{,}
+\\*
+\hspace*{2cm}\textcolor{src-quote}{"}\textcolor{src-string}{on}\textcolor{src-quote}{"}\textcolor{src-symbol}{,}
+\\*
+\hspace*{2cm}\textcolor{src-quote}{"}\textcolor{src-string}{Wailord}\textcolor{src-quote}{"}\textcolor{src-symbol}{,}
+\\*
+\hspace*{2cm}\textcolor{src-quote}{"}\textcolor{src-string}{action}\textcolor{src-quote}{"}
+\\*
+\hspace*{1cm}\textcolor{src-symbol}{]} \\*
+\hspace*{1cm}\textcolor{src-ident}{katakana} \textcolor{src-symbol}{=}
+\textcolor{src-type}{\$\{section.jp:\textsf{かたかな}\}}
+\textasciitilde{}
+\textcolor{src-quote}{"}\textcolor{src-string}{\textsf{　カナ}}\textcolor{src-quote}{"}\textcolor{src-symbol}{;}
+\textcolor{src-comment}{// katakana == "\textsf{カナ　カナ}"} \\*
+\hspace*{1cm}\textcolor{src-ident}{iNverse}~~\textcolor{src-symbol}{=}
+\textcolor{src-symbol}{-}\textcolor{src-type}{\$\{section:singularity\}}
+\textcolor{src-comment}{// iNverse == -Infinity} \\*
+\textcolor{src-symbol}{\}}
+}
 
 \section{Lexical}
 
@@ -105,7 +190,7 @@ The source text is split into tokens using the maximal munch technique, i.e.,
 the lexical analyzer tries to make the longest token it can. For example
 \texttt{>>} is a right shift token, not two greater than tokens.
 
-End-of-File is defined as:
+\subsection{End of File}
 
 \texttt{EndOfFile: \\*
 \hspace*{1cm}\textit{physical end of the file} \\*
@@ -120,7 +205,7 @@ End-of-File is defined as:
 \hspace*{1cm}\textit{\textbf{U+000D}} \textit{\textbf{U+000A}} \\*
 \hspace*{1cm}\textit{\textbf{U+2028}} \\*
 \hspace*{1cm}\textit{\textbf{U+2029}} \\*
-\hspace*{1cm}\textit{EndOfLine}}
+\hspace*{1cm}\textit{EndOfFile}}
 
 Lines may be spliced by having a backslash character (\textbf{U+005C}) (and
 optionally Whitespace) precede the End-of-Line character; in this case the
@@ -134,34 +219,5 @@ ignored and the next line is treated as if it were part of the first.
 \hspace*{1cm}\textit{\textbf{U+000B}} \\*
 \hspace*{1cm}\textit{\textbf{U+000C}} \\*
 \hspace*{1cm}\textit{\textbf{U+0020}} \\*}
-
-\subsection{Comments}
-
-\texttt{Comment: \\*
-\hspace*{1cm}\textit{BlockComment} \\*
-\hspace*{1cm}\textit{LineComment} \\*
-\hspace*{1cm}\textit{NestingBlockComment} \\*}
-
-\texttt{BlockComment: \\*
-\hspace*{1cm}\textbf{/*} \textit{Characters} \textbf{*/} \\*}
-
-\texttt{LineComment: \\*
-\hspace*{1cm}\textbf{//} \textit{Characters} \textit{EndOfLine} \\*}
-
-\texttt{NestingBlockComment: \\*
-\hspace*{1cm}\textbf{/+} \textit{NestingBlockCommentCharacters} \textbf{+/} \\*}
-
-\texttt{NestingBlockCommentCharacters: \\*
-\hspace*{1cm}\textit{NestingBlockCommentCharacter} \\*
-\hspace*{1cm}\textit{NestingBlockCommentCharacter}
-\textit{NestingBlockCommentCharacters} \\*}
-
-\texttt{NestingBlockCommentCharacter: \\*
-\hspace*{1cm}\textit{Character} \\*
-\hspace*{1cm}\textit{NestingBlockComment} \\*}
-
-\texttt{Characters: \\*
-\hspace*{1cm}\textit{Character} \\*
-\hspace*{1cm}\textit{Character} \textit{Characters} \\*}
 
 \end{document}
