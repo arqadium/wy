@@ -1,31 +1,46 @@
-/bin/
-node_modules/
-*.elc
-*.tar*
-*.zip
-*.log
-*.gba
-*.o
-*.out
-*.elf
-*.bin
-*.gba.*
-*.pyc
-*.nlz
-*.psd
-*.dib
-*.bmp
-*.patch
-*.exe
+#!/usr/bin/git
+## -*- coding: utf-8; mode: gitignore; indent-tabs-mode: nil -*-
+#
+# Copyright © 2017 Arqadium. All rights reserved.
+#
+# This document contains proprietary information of ARQADIUM and/or its
+# licensed developers and are protected by national and international
+# copyright laws. They may not be disclosed to third parties or copied or
+# duplicated in any form, in whole or in part, without the prior written
+# consent of Arqadium.
+#
+
+## Ignore LaTeX output
+
+
 *.pdf
 *.aux
+*.glo
+*.idx
+*.log
 *.toc
-
-*.png
-
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.gls
+*.ilg
+*.ind
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.out
+*.synctex.gz
 
 
 ## Emacs
+
 
 *~
 \#*\#
@@ -73,8 +88,8 @@ flycheck_*.el
 .dir-locals.el
 
 
-
 ## vi(m)
+
 
 # swap
 [._]*.s[a-w][a-z]
@@ -88,8 +103,8 @@ Session.vim
 tags
 
 
-
 ## Sublime Text
+
 
 # cache files for sublime text
 *.tmlanguage.cache
