@@ -7,5 +7,6 @@ This is the repo for the Wyvern configuration file format specification. To
 generate a PDF from the `specification.tex` file, install XeTeX and ensure you
 have the proper fonts and packages installed.
 
-The contents of this repository are provided under the terms of the __Creative
-Commons Attribution Share-Alike 4.0 International__ licence.
+The specification in this repository (`spec.tex`) are provided under the terms
+of the __Creative Commons Attribution Share-Alike 4.0 International__ licence.
+Code is under its own licence; see individual files for details.
