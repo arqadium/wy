@@ -25,6 +25,7 @@ SYNTAX['order'] = [
     'bcom',
     'lcom',
     'string',
+    'char',
     'rident',
     'ident',
     'numdec',
@@ -42,6 +43,7 @@ SYNTAX['def']['lcom'] = '//((?!' + SYNTAX['def']['eol'] + ').)*(?=(' + \
     SYNTAX['def']['eol'] + '))'
 SYNTAX['def']['bcom'] = r'/\*(.*)\*/'
 SYNTAX['def']['string'] = r'"([^"]|\\")*"'
+SYNTAX['def']['char'] = r"'([^']|\\\\')*'" # Not actually a char, OK
 SYNTAX['def']['ident'] = r'\b[A-Za-z_][A-Za-z0-9_]*\b'
 SYNTAX['def']['rident'] = r'\$\{[^\$\}\.:]+([\.:]([^\$\}\.:]+))*\}'
 SYNTAX['def']['numdec'] = r'\b[0-9]+(\.[0-9]+)?\b'
@@ -57,8 +59,8 @@ for key in SYNTAX['def']:
     SYNTAX['expr'][key] = re.compile(SYNTAX['def'][key], REFLAGS)
 
 SYNTAX['spec']['nbcom'] = {
-    'start': '/+',
-    'end': '+/'
+    'start': re.compile(r'/\+'),
+    'end': re.compile(r'\+/', REFLAGS)
 }
 
 def lex(inText):
@@ -66,8 +68,15 @@ def lex(inText):
     orderLR = range(len(SYNTAX['order']))
     inTextDup = inText[:]
     outTokens = []
+    nestLevel = 0
     while len(inTextDup) > 0:
         advLen = 1 # Next character if no match is found
+        if nestLevel > 0:
+            match = SYNTAX['spec']['nbcom']['end'].match(inTextDup)
+            if match != None:
+                advLen = len(match.group(0))
+                nestLevel -= 1
+            continue
         # Not looping over the values themselves,
         # as they may be out-of-order
         for i in orderLR:
@@ -79,6 +88,11 @@ def lex(inText):
                 advLen = len(match.group(0))
                 outTokens += [{'type': key, 'match': match}]
                 break
+        match = SYNTAX['spec']['nbcom']['start'].match(inTextDup)
+        if match != None:
+            advLen = len(match.group(0))
+            nestLevel += 1
+            continue
         # Advance reading by a slice
         inTextDup = inTextDup[advLen:]
     return outTokens
