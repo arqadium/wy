@@ -149,8 +149,8 @@ def p_expr_num(p):
 
 def p_expr_str(p):
     '''str : STRING
-           | STRING TILDE REF
-           | REF TILDE STRING
+           | STRING TILDE ref
+           | ref TILDE STRING
            | STRING TILDE str
            | str TILDE STRING'''
     if len(p) < 4:
@@ -176,7 +176,8 @@ def p_expr_num_array(p):
 
 def p_stmt(p):
     '''stmt : ident ASSIGN expr
-            | ident BRACKET_L list BRACKET_R
+            | ident ASSIGN BRACKET_L num_array BRACKET_R
+            | ident ASSIGN BRACKET_L str_array BRACKET_R
             | ident BRACE_L stmt BRACE_R'''
     p[0] = ('statement', p[2], )
 
